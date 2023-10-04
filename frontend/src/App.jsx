@@ -25,7 +25,10 @@ const App = () => {
   return (
     <div className="App">
       {photos.map((photo) => (
-        <PhotoListItem photo={photo} key={photo.id} />
+        <PhotoListItem
+          photo={photo}
+          key={Math.floor(photo.id * Math.random() * 100)}
+        />
       ))}
     </div>
   );
