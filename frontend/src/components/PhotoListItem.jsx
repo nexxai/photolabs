@@ -8,15 +8,15 @@ const PhotoListItem = (props) => {
     <article className="photo-list__item">
       <section>
         <PhotoFavButton className="photo-list__fav-icon" />
-        <img src={props.photo.imageSource} className="photo-list__image" />
+        <img src={props.photo.urls.regular} className="photo-list__image" />
       </section>
       <section className="photo-list__user-details">
         <img
-          src={props.photo.profile}
+          src={props.photo.user.profile}
           className="photo-list__image photo-list__user-profile"
         />
         <section className="photo-list__user-info">
-          <div className="">{props.photo.username}</div>
+          <div className="">{props.photo.user.name}</div>
           <div className="photo-list__user-location">
             {props.photo.location.city}, {props.photo.location.country}
           </div>
