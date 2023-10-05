@@ -2,11 +2,23 @@ import React, { useCallback, useState } from "react";
 import "../styles/PhotoFavButton.scss";
 import FavIcon from "./FavIcon";
 
-function PhotoFavButton() {
+function PhotoFavButton(props) {
   const [favorited, setFavorited] = useState(false);
 
   const favoritePhoto = function () {
     setFavorited(!favorited);
+
+    props.setLikedPhotos((list) => {
+      let newList = [...list];
+
+      if (favorited) {
+        newList = newList.filter((item) => item !== props.photo_id);
+      } else {
+        newList.push(props.photo_id);
+      }
+
+      return newList;
+    });
   };
 
   return (
