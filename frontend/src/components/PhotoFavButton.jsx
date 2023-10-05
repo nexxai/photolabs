@@ -6,7 +6,6 @@ function PhotoFavButton() {
   const [favorited, setFavorited] = useState(false);
 
   const favoritePhoto = function () {
-    console.log("favoriting");
     setFavorited(!favorited);
   };
 
