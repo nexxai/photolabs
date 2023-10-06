@@ -12,6 +12,7 @@ const PhotoList = (props) => {
             photo={photo}
             key={photo.id}
             setLikedPhotos={props.setLikedPhotos}
+            setShowModal={props.setShowModal}
           />
         );
       })}

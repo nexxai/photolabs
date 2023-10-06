@@ -12,7 +12,11 @@ const PhotoListItem = (props) => {
           setLikedPhotos={props.setLikedPhotos}
           photo_id={props.photo.id}
         />
-        <img src={props.photo.urls.regular} className="photo-list__image" />
+        <img
+          src={props.photo.urls.regular}
+          className="photo-list__image"
+          onClick={props.setShowModal}
+        />
       </section>
       <section className="photo-list__user-details">
         <img

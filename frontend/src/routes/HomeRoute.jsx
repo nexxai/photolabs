@@ -7,13 +7,17 @@ import PhotoList from "components/PhotoList";
 import photos from "mocks/photos";
 import topics from "mocks/topics";
 
-const HomeRoute = () => {
+const HomeRoute = (props) => {
   const [likedPhotos, setLikedPhotos] = useState([]);
 
   return (
     <div className="home-route">
       <TopNavigationBar topics={topics} likedPhotos={likedPhotos} />
-      <PhotoList photos={photos} setLikedPhotos={setLikedPhotos} />
+      <PhotoList
+        photos={photos}
+        setLikedPhotos={setLikedPhotos}
+        setShowModal={props.setShowModal}
+      />
     </div>
   );
 };
