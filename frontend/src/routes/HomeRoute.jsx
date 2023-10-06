@@ -16,7 +16,7 @@ const HomeRoute = (props) => {
       <PhotoList
         photos={photos}
         setLikedPhotos={setLikedPhotos}
-        setShowModal={props.setShowModal}
+        onShowModalClick={props.onShowModalClick}
       />
     </div>
   );

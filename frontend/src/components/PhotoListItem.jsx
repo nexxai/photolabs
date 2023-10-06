@@ -15,7 +15,7 @@ const PhotoListItem = (props) => {
         <img
           src={props.photo.urls.regular}
           className="photo-list__image"
-          onClick={props.setShowModal}
+          onClick={() => props.onShowModalClick(props.photo)}
         />
       </section>
       <section className="photo-list__user-details">
