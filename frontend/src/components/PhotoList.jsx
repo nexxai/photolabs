@@ -11,6 +11,7 @@ const PhotoList = (props) => {
           <PhotoListItem
             photo={photo}
             key={photo.id}
+            likedPhotos={props.likedPhotos}
             setLikedPhotos={props.setLikedPhotos}
             onShowModalClick={props.onShowModalClick}
           />

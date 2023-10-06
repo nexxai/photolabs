@@ -24,7 +24,12 @@ function PhotoFavButton(props) {
   return (
     <div className="photo-list__fav-icon" onClick={favoritePhoto}>
       <div className="photo-list__fav-icon-svg">
-        <FavIcon selected={favorited} />
+        <FavIcon
+          selected={
+            favorited ||
+            (props.likedPhotos && props.likedPhotos.includes(props.photo_id))
+          }
+        />
       </div>
     </div>
   );

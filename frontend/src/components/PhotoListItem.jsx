@@ -9,6 +9,7 @@ const PhotoListItem = (props) => {
       <section>
         <PhotoFavButton
           className="photo-list__fav-icon"
+          likedPhotos={props.likedPhotos}
           setLikedPhotos={props.setLikedPhotos}
           photo_id={props.photo.id}
         />

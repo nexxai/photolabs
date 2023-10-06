@@ -8,14 +8,13 @@ import photos from "mocks/photos";
 import topics from "mocks/topics";
 
 const HomeRoute = (props) => {
-  const [likedPhotos, setLikedPhotos] = useState([]);
-
   return (
     <div className="home-route">
-      <TopNavigationBar topics={topics} likedPhotos={likedPhotos} />
+      <TopNavigationBar topics={topics} likedPhotos={props.likedPhotos} />
       <PhotoList
         photos={photos}
-        setLikedPhotos={setLikedPhotos}
+        likedPhotos={props.likedPhotos}
+        setLikedPhotos={props.setLikedPhotos}
         onShowModalClick={props.onShowModalClick}
       />
     </div>

@@ -6,6 +6,8 @@ import PhotoDetailsModal from "routes/PhotoDetailsModal";
 
 // Note: Rendering a single component to build components in isolation
 const App = () => {
+  const [likedPhotos, setLikedPhotos] = useState([]);
+
   const initialState = {
     showModal: false,
   };
@@ -31,11 +33,17 @@ const App = () => {
 
   return (
     <div className="App">
-      <HomeRoute onShowModalClick={onShowModalClick} />
+      <HomeRoute
+        onShowModalClick={onShowModalClick}
+        likedPhotos={likedPhotos}
+        setLikedPhotos={setLikedPhotos}
+      />
       {state.showModal && (
         <PhotoDetailsModal
           onHideModalClick={onHideModalClick}
           photo={state.photo}
+          likedPhotos={likedPhotos}
+          setLikedPhotos={setLikedPhotos}
         />
       )}
     </div>
