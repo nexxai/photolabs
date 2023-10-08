@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 
-const actions = {
+export const ACTIONS = {
   SHOW_MODAL: "showModal",
   HIDE_MODAL: "hideModal",
   TOGGLE_LIKED_PHOTO: "toggleLikedPhoto",
@@ -14,37 +14,41 @@ export default function useApplicationData() {
   };
 
   const func = (state, action) => {
-    if (action.command === actions.SHOW_MODAL) {
-      return { ...state, showModal: true, photo: action.photo };
-    } else if (action.command === actions.HIDE_MODAL) {
-      return { ...state, showModal: false, photo: null };
-    } else if (action.command === actions.TOGGLE_LIKED_PHOTO) {
-      const newLikedPhotos = [...state.likedPhotos];
+    switch (action.command) {
+      case ACTIONS.SHOW_MODAL:
+        return { ...state, showModal: true, photo: action.photo };
+      case ACTIONS.HIDE_MODAL:
+        return { ...state, showModal: false, photo: null };
+      case ACTIONS.TOGGLE_LIKED_PHOTO:
+        const newLikedPhotos = [...state.likedPhotos];
 
-      if (newLikedPhotos.includes(action.payload)) {
-        newLikedPhotos.splice(newLikedPhotos.indexOf(action.payload), 1);
-      } else {
-        newLikedPhotos.push(action.payload);
-      }
+        if (newLikedPhotos.includes(action.payload)) {
+          newLikedPhotos.splice(newLikedPhotos.indexOf(action.payload), 1);
+        } else {
+          newLikedPhotos.push(action.payload);
+        }
 
-      return { ...state, likedPhotos: newLikedPhotos };
+        return { ...state, likedPhotos: newLikedPhotos };
+      default:
+        throw new Error(
+          `Tried to reduce with unsupported action command: ${action.command}`
+        );
     }
-    return state;
   };
 
   const [state, setState] = useReducer(func, initialState);
 
   const onShowModalClick = (photo) => {
-    setState({ command: actions.SHOW_MODAL, photo: photo });
+    setState({ command: ACTIONS.SHOW_MODAL, photo: photo });
   };
   const onHideModalClick = () => {
-    setState({ command: actions.HIDE_MODAL });
+    setState({ command: ACTIONS.HIDE_MODAL });
   };
 
   const likedPhotos = state.likedPhotos;
 
   const setLikedPhotos = (photo) => {
-    setState({ command: actions.TOGGLE_LIKED_PHOTO, payload: photo });
+    setState({ command: ACTIONS.TOGGLE_LIKED_PHOTO, payload: photo });
   };
 
   return {
