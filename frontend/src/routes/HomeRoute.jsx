@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "../styles/HomeRoute.scss";
 import TopNavigationBar from "components/TopNavigationBar";
 import PhotoList from "components/PhotoList";
 
-import photos from "mocks/photos";
-import topics from "mocks/topics";
-
 const HomeRoute = (props) => {
   return (
     <div className="home-route">
-      <TopNavigationBar topics={topics} likedPhotos={props.likedPhotos} />
+      <TopNavigationBar topics={props.topics} likedPhotos={props.likedPhotos} />
       <PhotoList
-        photos={photos}
+        photos={props.photos}
         likedPhotos={props.likedPhotos}
         setLikedPhotos={props.setLikedPhotos}
         onShowModalClick={props.onShowModalClick}
