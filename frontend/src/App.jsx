@@ -12,6 +12,7 @@ const App = () => {
     state,
     onShowModalClick,
     onHideModalClick,
+    getPhotosByTopic,
   } = useApplicationData();
 
   return (
@@ -22,6 +23,7 @@ const App = () => {
         onShowModalClick={onShowModalClick}
         likedPhotos={likedPhotos}
         setLikedPhotos={setLikedPhotos}
+        getPhotosByTopic={getPhotosByTopic}
       />
       {state.showModal && (
         <PhotoDetailsModal

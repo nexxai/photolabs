@@ -7,7 +7,11 @@ import PhotoList from "components/PhotoList";
 const HomeRoute = (props) => {
   return (
     <div className="home-route">
-      <TopNavigationBar topics={props.topics} likedPhotos={props.likedPhotos} />
+      <TopNavigationBar
+        getPhotosByTopic={props.getPhotosByTopic}
+        topics={props.topics}
+        likedPhotos={props.likedPhotos}
+      />
       <PhotoList
         photos={props.photos}
         likedPhotos={props.likedPhotos}

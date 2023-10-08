@@ -6,6 +6,7 @@ export const ACTIONS = {
   TOGGLE_LIKED_PHOTO: "toggleLikedPhoto",
   LOAD_PHOTOS: "loadPhotos",
   LOAD_TOPICS: "loadTopics",
+  SHOW_TOPIC: "showTopic",
 };
 
 export default function useApplicationData() {
@@ -15,6 +16,7 @@ export default function useApplicationData() {
     likedPhotos: [],
     photos: [],
     topics: [],
+    topic: null,
   };
 
   const func = (state, action) => {
@@ -37,6 +39,8 @@ export default function useApplicationData() {
         return { ...state, photos: action.payload };
       case ACTIONS.LOAD_TOPICS:
         return { ...state, topics: action.payload };
+      case ACTIONS.SHOW_TOPIC:
+        return { ...state, topic: action.payload };
       default:
         throw new Error(
           `Tried to reduce with unsupported action command: ${action.command}`
@@ -65,7 +69,6 @@ export default function useApplicationData() {
         return response.json();
       })
       .then((photos) => {
-        console.log(photos);
         setState({ command: ACTIONS.LOAD_PHOTOS, payload: photos });
       })
       .catch((error) => {
@@ -79,7 +82,6 @@ export default function useApplicationData() {
         return response.json();
       })
       .then((topics) => {
-        console.log(topics);
         setState({ command: ACTIONS.LOAD_TOPICS, payload: topics });
       })
       .catch((error) => {
@@ -87,11 +89,31 @@ export default function useApplicationData() {
       });
   }, []);
 
+  const getPhotosByTopic = (id) => {
+    setState({ command: ACTIONS.SHOW_TOPIC, payload: id });
+  };
+
+  useEffect(() => {
+    if (state.topic) {
+      fetch(`/api/topics/photos/${state.topic}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((photos) => {
+          setState({ command: ACTIONS.LOAD_PHOTOS, payload: photos });
+        })
+        .catch((error) => {
+          throw new Error("Error fetching photos:", error);
+        });
+    }
+  }, [state.topic]);
+
   return {
     likedPhotos,
     setLikedPhotos,
     state,
     onShowModalClick,
     onHideModalClick,
+    getPhotosByTopic,
   };
 }
