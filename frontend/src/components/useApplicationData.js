@@ -11,6 +11,8 @@ export default function useApplicationData() {
     showModal: false,
     photo: null,
     likedPhotos: [],
+    photos: [],
+    topics: [],
   };
 
   const func = (state, action) => {

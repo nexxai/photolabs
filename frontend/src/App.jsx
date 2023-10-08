@@ -4,8 +4,6 @@ import "./App.scss";
 import HomeRoute from "routes/HomeRoute";
 import PhotoDetailsModal from "routes/PhotoDetailsModal";
 import useApplicationData from "components/useApplicationData";
-import photos from "mocks/photos";
-import topics from "mocks/topics";
 
 const App = () => {
   const {
@@ -19,8 +17,8 @@ const App = () => {
   return (
     <div className="App">
       <HomeRoute
-        photos={photos}
-        topics={topics}
+        photos={state.photos}
+        topics={state.topics}
         onShowModalClick={onShowModalClick}
         likedPhotos={likedPhotos}
         setLikedPhotos={setLikedPhotos}
