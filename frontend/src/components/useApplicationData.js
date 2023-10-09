@@ -61,12 +61,21 @@ export default function useApplicationData() {
   const onShowModalClick = (photo) => {
     setState({ command: ACTIONS.SHOW_MODAL, photo: photo });
   };
+
   const onHideModalClick = () => {
     setState({ command: ACTIONS.HIDE_MODAL });
   };
 
   const setLikedPhotos = (photo) => {
     setState({ command: ACTIONS.TOGGLE_LIKED_PHOTO, payload: photo });
+  };
+
+  const getPhotosByTopic = (id) => {
+    setState({ command: ACTIONS.SHOW_TOPIC, payload: id });
+  };
+
+  const clearTopic = () => {
+    setState({ command: ACTIONS.CLEAR_TOPIC });
   };
 
   const clearSelectedTopicAndGetAllPhotos = () => {
@@ -94,14 +103,6 @@ export default function useApplicationData() {
       .catch((error) => {
         throw new Error("Error fetching photos:", error);
       });
-  };
-
-  const getPhotosByTopic = (id) => {
-    setState({ command: ACTIONS.SHOW_TOPIC, payload: id });
-  };
-
-  const clearTopic = () => {
-    setState({ command: ACTIONS.CLEAR_TOPIC });
   };
 
   // Get all photos on initial load
