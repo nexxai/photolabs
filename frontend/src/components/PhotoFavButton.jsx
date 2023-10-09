@@ -9,17 +9,6 @@ function PhotoFavButton(props) {
     setFavorited(!favorited);
 
     props.setLikedPhotos(props.photo_id);
-    // props.setLikedPhotos((list) => {
-    //   let newList = [...list];
-
-    //   if (favorited) {
-    //     newList = newList.filter((item) => item !== props.photo_id);
-    //   } else {
-    //     newList.push(props.photo_id);
-    //   }
-
-    //   return newList;
-    // });
   };
 
   return (
