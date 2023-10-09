@@ -8,6 +8,7 @@ import useApplicationData from "components/useApplicationData";
 const App = () => {
   const {
     state,
+    search,
     setLikedPhotos,
     clearTopic,
     onShowModalClick,
@@ -18,13 +19,12 @@ const App = () => {
   return (
     <div className="App">
       <HomeRoute
-        photos={state.photos}
-        topics={state.topics}
         onShowModalClick={onShowModalClick}
-        likedPhotos={state.likedPhotos}
         setLikedPhotos={setLikedPhotos}
         getPhotosByTopic={getPhotosByTopic}
         clearTopic={clearTopic}
+        state={state}
+        search={search}
       />
       {state.showModal && (
         <PhotoDetailsModal

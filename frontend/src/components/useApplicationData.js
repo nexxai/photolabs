@@ -9,6 +9,7 @@ export const ACTIONS = {
   LOAD_TOPICS: "loadTopics",
   SHOW_TOPIC: "showTopic",
   CLEAR_TOPIC: "clearTopic",
+  SEARCH: "search",
 };
 
 export default function useApplicationData() {
@@ -19,6 +20,7 @@ export default function useApplicationData() {
     photo: null,
     topics: [],
     topic: null,
+    searchTerm: "",
   };
 
   /**
@@ -47,6 +49,8 @@ export default function useApplicationData() {
         return { ...state, likedPhotos: newLikedPhotos };
       case ACTIONS.LOAD_PHOTOS:
         return { ...state, photos: action.payload };
+      case ACTIONS.SEARCH:
+        return { ...state, searchTerm: action.payload };
       case ACTIONS.LOAD_TOPICS:
         return { ...state, topics: action.payload };
       case ACTIONS.SHOW_TOPIC:
@@ -86,11 +90,15 @@ export default function useApplicationData() {
     setState({ command: ACTIONS.CLEAR_TOPIC });
   };
 
+  const search = (e) => {
+    setState({ command: ACTIONS.SEARCH, payload: e.target.value });
+  };
+
   /**
    * Fetching data functionality
    */
 
-  const clearSelectedTopicAndGetAllPhotos = () => {
+  const getAllPhotos = () => {
     const photosPromise = axios.get("/api/photos").catch((error) => {
       throw new Error("Error fetching photos:", error);
     });
@@ -117,27 +125,49 @@ export default function useApplicationData() {
       });
   };
 
+  const searchForPhotos = () => {
+    axios
+      .post(`/api/photos/search`, { q: state.searchTerm })
+      .then((response) => {
+        setState({ command: ACTIONS.LOAD_PHOTOS, payload: response.data });
+      })
+      .catch((error) => {
+        throw new Error("Error fetching photos:", error);
+      });
+  };
+
   /**
    * useEffects()
    */
 
   useEffect(() => {
     // Get all photos on initial load
-    clearSelectedTopicAndGetAllPhotos();
+    getAllPhotos();
   }, []);
 
   useEffect(() => {
     if (state.topic === null) {
       // If the topic is now null, get all photos
-      clearSelectedTopicAndGetAllPhotos();
+      getAllPhotos();
     } else if (state.topic) {
       // The user chose a topic so only fetch those photos
       getPhotosFromSpecificTopic();
     }
   }, [state.topic]);
 
+  useEffect(() => {
+    if (state.searchTerm !== "") {
+      // Someone has entered a search term, so hit the API endpoint and query for it
+      searchForPhotos();
+    } else {
+      // The search box is empty so just show everything
+      getAllPhotos();
+    }
+  }, [state.searchTerm]);
+
   return {
     state,
+    search,
     setLikedPhotos,
     clearTopic,
     onShowModalClick,

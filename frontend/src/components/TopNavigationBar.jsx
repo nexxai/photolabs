@@ -14,6 +14,7 @@ const TopNavigationBar = (props) => {
         getPhotosByTopic={props.getPhotosByTopic}
         topics={props.topics}
       />
+      <input value={props.state.searchTerm} onChange={props.search} />
       <FavBadge isFavPhotoExist={props.likedPhotos.length ? true : false} />
     </div>
   );

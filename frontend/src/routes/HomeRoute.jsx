@@ -9,13 +9,15 @@ const HomeRoute = (props) => {
     <div className="home-route">
       <TopNavigationBar
         getPhotosByTopic={props.getPhotosByTopic}
-        topics={props.topics}
-        likedPhotos={props.likedPhotos}
+        topics={props.state.topics}
+        likedPhotos={props.state.likedPhotos}
         clearTopic={props.clearTopic}
+        state={props.state}
+        search={props.search}
       />
       <PhotoList
-        photos={props.photos}
-        likedPhotos={props.likedPhotos}
+        photos={props.state.photos}
+        likedPhotos={props.state.likedPhotos}
         setLikedPhotos={props.setLikedPhotos}
         onShowModalClick={props.onShowModalClick}
       />
