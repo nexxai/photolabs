@@ -7,9 +7,8 @@ import useApplicationData from "components/useApplicationData";
 
 const App = () => {
   const {
-    likedPhotos,
-    setLikedPhotos,
     state,
+    setLikedPhotos,
     clearTopic,
     onShowModalClick,
     onHideModalClick,
@@ -22,7 +21,7 @@ const App = () => {
         photos={state.photos}
         topics={state.topics}
         onShowModalClick={onShowModalClick}
-        likedPhotos={likedPhotos}
+        likedPhotos={state.likedPhotos}
         setLikedPhotos={setLikedPhotos}
         getPhotosByTopic={getPhotosByTopic}
         clearTopic={clearTopic}
@@ -31,7 +30,7 @@ const App = () => {
         <PhotoDetailsModal
           onHideModalClick={onHideModalClick}
           photo={state.photo}
-          likedPhotos={likedPhotos}
+          likedPhotos={state.likedPhotos}
           setLikedPhotos={setLikedPhotos}
         />
       )}

@@ -65,8 +65,6 @@ export default function useApplicationData() {
     setState({ command: ACTIONS.HIDE_MODAL });
   };
 
-  const likedPhotos = state.likedPhotos;
-
   const setLikedPhotos = (photo) => {
     setState({ command: ACTIONS.TOGGLE_LIKED_PHOTO, payload: photo });
   };
@@ -106,22 +104,24 @@ export default function useApplicationData() {
     setState({ command: ACTIONS.CLEAR_TOPIC });
   };
 
+  // Get all photos on initial load
   useEffect(() => {
     clearSelectedTopicAndGetAllPhotos();
   }, []);
 
   useEffect(() => {
     if (state.topic === null) {
+      // If the topic is now null, get all photos
       clearSelectedTopicAndGetAllPhotos();
     } else if (state.topic) {
+      // The user chose a topic so only fetch those photos
       getPhotosFromSpecificTopic();
     }
   }, [state.topic]);
 
   return {
-    likedPhotos,
-    setLikedPhotos,
     state,
+    setLikedPhotos,
     clearTopic,
     onShowModalClick,
     onHideModalClick,
