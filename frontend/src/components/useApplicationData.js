@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useReducer } from "react";
 
 export const ACTIONS = {
@@ -28,9 +29,12 @@ export default function useApplicationData() {
       case ACTIONS.TOGGLE_LIKED_PHOTO:
         const newLikedPhotos = [...state.likedPhotos];
 
+        // Check to see if the photo is currently liked
         if (newLikedPhotos.includes(action.payload)) {
+          // It is, so remove the like
           newLikedPhotos.splice(newLikedPhotos.indexOf(action.payload), 1);
         } else {
+          // It isn't, so add the like
           newLikedPhotos.push(action.payload);
         }
 
@@ -64,29 +68,18 @@ export default function useApplicationData() {
   };
 
   useEffect(() => {
-    fetch("/api/photos")
-      .then((response) => {
-        return response.json();
-      })
-      .then((photos) => {
-        setState({ command: ACTIONS.LOAD_PHOTOS, payload: photos });
-      })
-      .catch((error) => {
-        throw new Error("Error fetching photos:", error);
-      });
-  }, []);
+    const photosPromise = axios.get("/api/photos").catch((error) => {
+      throw new Error("Error fetching photos:", error);
+    });
 
-  useEffect(() => {
-    fetch("/api/topics")
-      .then((response) => {
-        return response.json();
-      })
-      .then((topics) => {
-        setState({ command: ACTIONS.LOAD_TOPICS, payload: topics });
-      })
-      .catch((error) => {
-        throw new Error("Error fetching photos:", error);
-      });
+    const topicsPromise = axios.get("/api/topics").catch((error) => {
+      throw new Error("Error fetching photos:", error);
+    });
+
+    Promise.all([photosPromise, topicsPromise]).then((values) => {
+      setState({ command: ACTIONS.LOAD_PHOTOS, payload: values[0].data });
+      setState({ command: ACTIONS.LOAD_TOPICS, payload: values[1].data });
+    });
   }, []);
 
   const getPhotosByTopic = (id) => {
@@ -95,12 +88,10 @@ export default function useApplicationData() {
 
   useEffect(() => {
     if (state.topic) {
-      fetch(`/api/topics/photos/${state.topic}`)
+      axios
+        .get(`/api/topics/photos/${state.topic}`)
         .then((response) => {
-          return response.json();
-        })
-        .then((photos) => {
-          setState({ command: ACTIONS.LOAD_PHOTOS, payload: photos });
+          setState({ command: ACTIONS.LOAD_PHOTOS, payload: response.data });
         })
         .catch((error) => {
           throw new Error("Error fetching photos:", error);
