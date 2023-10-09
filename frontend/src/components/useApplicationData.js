@@ -76,6 +76,7 @@ export default function useApplicationData() {
       throw new Error("Error fetching photos:", error);
     });
 
+    // Photos and topics are related so only display if both return data
     Promise.all([photosPromise, topicsPromise]).then((values) => {
       setState({ command: ACTIONS.LOAD_PHOTOS, payload: values[0].data });
       setState({ command: ACTIONS.LOAD_TOPICS, payload: values[1].data });
