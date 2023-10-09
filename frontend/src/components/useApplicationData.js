@@ -27,14 +27,15 @@ export default function useApplicationData() {
       case ACTIONS.HIDE_MODAL:
         return { ...state, showModal: false, photo: null };
       case ACTIONS.TOGGLE_LIKED_PHOTO:
+        // Create a copy of the list of currently liked photos
         const newLikedPhotos = [...state.likedPhotos];
 
-        // Check to see if the photo is currently liked
+        // Check to see if the selected photo is currently liked
         if (newLikedPhotos.includes(action.payload)) {
-          // It is, so remove the like
+          // It is already liked, so remove the like
           newLikedPhotos.splice(newLikedPhotos.indexOf(action.payload), 1);
         } else {
-          // It isn't, so add the like
+          // It isn't currently liked, so add the like
           newLikedPhotos.push(action.payload);
         }
 
