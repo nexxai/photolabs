@@ -7,7 +7,9 @@ import FavBadge from "./FavBadge";
 const TopNavigationBar = (props) => {
   return (
     <div className="top-nav-bar">
-      <span className="top-nav-bar__logo">PhotoLabs</span>
+      <a href="#" onClick={() => props.clearTopic()}>
+        <span className="top-nav-bar__logo">PhotoLabs</span>
+      </a>
       <TopicList
         getPhotosByTopic={props.getPhotosByTopic}
         topics={props.topics}

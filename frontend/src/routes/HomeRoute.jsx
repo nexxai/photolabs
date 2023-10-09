@@ -11,6 +11,7 @@ const HomeRoute = (props) => {
         getPhotosByTopic={props.getPhotosByTopic}
         topics={props.topics}
         likedPhotos={props.likedPhotos}
+        clearTopic={props.clearTopic}
       />
       <PhotoList
         photos={props.photos}

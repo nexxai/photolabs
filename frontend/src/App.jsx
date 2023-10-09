@@ -10,6 +10,7 @@ const App = () => {
     likedPhotos,
     setLikedPhotos,
     state,
+    clearTopic,
     onShowModalClick,
     onHideModalClick,
     getPhotosByTopic,
@@ -24,6 +25,7 @@ const App = () => {
         likedPhotos={likedPhotos}
         setLikedPhotos={setLikedPhotos}
         getPhotosByTopic={getPhotosByTopic}
+        clearTopic={clearTopic}
       />
       {state.showModal && (
         <PhotoDetailsModal

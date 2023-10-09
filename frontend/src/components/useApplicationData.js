@@ -8,6 +8,7 @@ export const ACTIONS = {
   LOAD_PHOTOS: "loadPhotos",
   LOAD_TOPICS: "loadTopics",
   SHOW_TOPIC: "showTopic",
+  CLEAR_TOPIC: "clearTopic",
 };
 
 export default function useApplicationData() {
@@ -46,6 +47,8 @@ export default function useApplicationData() {
         return { ...state, topics: action.payload };
       case ACTIONS.SHOW_TOPIC:
         return { ...state, topic: action.payload };
+      case ACTIONS.CLEAR_TOPIC:
+        return { ...state, topic: null };
       default:
         throw new Error(
           `Tried to reduce with unsupported action command: ${action.command}`
@@ -68,7 +71,7 @@ export default function useApplicationData() {
     setState({ command: ACTIONS.TOGGLE_LIKED_PHOTO, payload: photo });
   };
 
-  useEffect(() => {
+  const clearSelectedTopicAndGetAllPhotos = () => {
     const photosPromise = axios.get("/api/photos").catch((error) => {
       throw new Error("Error fetching photos:", error);
     });
@@ -82,22 +85,36 @@ export default function useApplicationData() {
       setState({ command: ACTIONS.LOAD_PHOTOS, payload: values[0].data });
       setState({ command: ACTIONS.LOAD_TOPICS, payload: values[1].data });
     });
-  }, []);
+  };
+
+  const getPhotosFromSpecificTopic = () => {
+    axios
+      .get(`/api/topics/photos/${state.topic}`)
+      .then((response) => {
+        setState({ command: ACTIONS.LOAD_PHOTOS, payload: response.data });
+      })
+      .catch((error) => {
+        throw new Error("Error fetching photos:", error);
+      });
+  };
 
   const getPhotosByTopic = (id) => {
     setState({ command: ACTIONS.SHOW_TOPIC, payload: id });
   };
 
+  const clearTopic = () => {
+    setState({ command: ACTIONS.CLEAR_TOPIC });
+  };
+
   useEffect(() => {
-    if (state.topic) {
-      axios
-        .get(`/api/topics/photos/${state.topic}`)
-        .then((response) => {
-          setState({ command: ACTIONS.LOAD_PHOTOS, payload: response.data });
-        })
-        .catch((error) => {
-          throw new Error("Error fetching photos:", error);
-        });
+    clearSelectedTopicAndGetAllPhotos();
+  }, []);
+
+  useEffect(() => {
+    if (state.topic === null) {
+      clearSelectedTopicAndGetAllPhotos();
+    } else if (state.topic) {
+      getPhotosFromSpecificTopic();
     }
   }, [state.topic]);
 
@@ -105,6 +122,7 @@ export default function useApplicationData() {
     likedPhotos,
     setLikedPhotos,
     state,
+    clearTopic,
     onShowModalClick,
     onHideModalClick,
     getPhotosByTopic,
