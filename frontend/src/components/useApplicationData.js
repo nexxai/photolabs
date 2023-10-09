@@ -14,9 +14,9 @@ export const ACTIONS = {
 export default function useApplicationData() {
   const initialState = {
     showModal: false,
-    photo: null,
     likedPhotos: [],
     photos: [],
+    photo: null,
     topics: [],
     topic: null,
   };
@@ -121,8 +121,8 @@ export default function useApplicationData() {
    * useEffects()
    */
 
-  // Get all photos on initial load
   useEffect(() => {
+    // Get all photos on initial load
     clearSelectedTopicAndGetAllPhotos();
   }, []);
 
