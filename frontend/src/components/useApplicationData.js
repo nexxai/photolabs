@@ -21,7 +21,11 @@ export default function useApplicationData() {
     topic: null,
   };
 
-  const func = (state, action) => {
+  /**
+   * The reducer actions
+   */
+
+  const reducerFunction = (state, action) => {
     switch (action.command) {
       case ACTIONS.SHOW_MODAL:
         return { ...state, showModal: true, photo: action.photo };
@@ -56,7 +60,11 @@ export default function useApplicationData() {
     }
   };
 
-  const [state, setState] = useReducer(func, initialState);
+  const [state, setState] = useReducer(reducerFunction, initialState);
+
+  /**
+   * Functions to set some piece of the state
+   */
 
   const onShowModalClick = (photo) => {
     setState({ command: ACTIONS.SHOW_MODAL, photo: photo });
@@ -77,6 +85,10 @@ export default function useApplicationData() {
   const clearTopic = () => {
     setState({ command: ACTIONS.CLEAR_TOPIC });
   };
+
+  /**
+   * Fetching data functionality
+   */
 
   const clearSelectedTopicAndGetAllPhotos = () => {
     const photosPromise = axios.get("/api/photos").catch((error) => {
@@ -104,6 +116,10 @@ export default function useApplicationData() {
         throw new Error("Error fetching photos:", error);
       });
   };
+
+  /**
+   * useEffects()
+   */
 
   // Get all photos on initial load
   useEffect(() => {
