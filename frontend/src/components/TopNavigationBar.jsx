@@ -14,7 +14,7 @@ const TopNavigationBar = (props) => {
         getPhotosByTopic={props.getPhotosByTopic}
         topics={props.topics}
       />
-      <FavBadge isFavPhotoExist={props.likedPhotos.length ? true : false} />
+      <FavBadge isFavPhotoExist={props.likedPhotos.length > 0} />
     </div>
   );
 };
